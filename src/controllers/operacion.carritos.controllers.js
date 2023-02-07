@@ -28,9 +28,7 @@ export async function addProductCarritos(req, res) {
         const carrito = await DB_CARRITOS.getById(req.params.id)
         const producto = JSON.stringify( await DB_PRODUCTOS.getById(req.body.id))
         carrito[0].productos.push(producto)
-        console.log('el update del carrito', producto)
         await DB_CARRITOS.update(req.params.id, carrito)
-        console.log('carrito actualizado',DB_CARRITOS)
         res.end() 
     } catch (error) {
         logger.warn('Ruta no implementada', error)

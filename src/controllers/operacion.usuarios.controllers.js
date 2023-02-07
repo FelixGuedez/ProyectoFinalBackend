@@ -4,11 +4,8 @@ import passport from 'passport';
 import { Strategy } from 'passport-local'
 import UsuariosDaoMongoDb from "../daos/usuarios/usuariosDaosMongoDb.js";
 import { registerEmailConfirmation } from '../utils/register.SendEmail.js';
-
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv';
-
-import { config } from '../utils/config.js';
 
 let esAdmin
 
@@ -33,10 +30,6 @@ passport.use(new LocalStrategy(
             return done(null, false);
         } else {
             if (username == 'admin@api.com') {
-                // const accessToken = generateToken({ username });
-                // logger.info('Usuario Logueado')
-                // console.log(accessToken)
-                // accessToken
                 esAdmin = true
                 process.env.IS_ADMIN = esAdmin
                 const match = await verifyPass(existeUsuario, password);
@@ -47,15 +40,12 @@ passport.use(new LocalStrategy(
             } else {
                 esAdmin = false
                 process.env.IS_ADMIN = esAdmin
-                console.log('esAdmin Variable normal', esAdmin)
-                console.log('esAdmin Variable entorno', process.env.IS_ADMIN)
                 const match = await verifyPass(existeUsuario, password);
                 if (!match) {
                     return done(null, false);
                 }
             }
             nameUser = await nameUsername(existeUsuario)
-            console.log('name user', nameUser)
             return done(null, existeUsuario);
         }
     }))
@@ -115,7 +105,6 @@ export async function postRegistro(req, res) {
     try {
         const { name, lastname, number, address, username, password } = req.body;
         console.log('Desde Formulario', req.body)
-        // const newUsuario = await USUARIOS.findOne({ username: username })
         const newUsuario = await USUARIOS.getByUserName(username)
 
         if (newUsuario) {

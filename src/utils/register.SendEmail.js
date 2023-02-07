@@ -18,7 +18,6 @@ export async function registerEmailConfirmation(user){
         pass: process.env.PASSWORD
     }
 });
-console.log( process.env.COUNT, process.env.PASSWORD)
     
     const regConfirm_MailOptions = {
         from: 'CoderHouse - App Felix Guedez <noreply@myapp.com>',

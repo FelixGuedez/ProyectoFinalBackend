@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import  { config }  from '../utils/config.js';
+import { config } from '../utils/config.js';
 import { logger } from '../utils/logger.config.js';
 
 const strConn = config.mongodb.cnxStr
@@ -41,11 +41,10 @@ export default class ContainerMongoDb {
 
     async getByUserName(elem) {
         try {
-            console.log('username que recibe el container', elem)
             await mongoose.connect(strConn, options);
-            const objFind = await this.model.findOne({username: elem });
+            const objFind = await this.model.findOne({ username: elem });
             if (objFind.length == 0) {
-                console.log('No se encontro el usuario seleccionado')
+                logger.info('No se encontro el usuario seleccionado')
             }
             else {
                 return objFind
@@ -63,6 +62,8 @@ export default class ContainerMongoDb {
             const obj = await this.model.deleteOne({ '_id': id })
             if (obj == 0) {
                 return 'Articulo no encontrado'
+            } else {
+                return ('El porducto fue eliminado con exito')
             }
         } catch (error) {
             return 'No se pudo eliminar', error
@@ -97,9 +98,7 @@ export default class ContainerMongoDb {
     async update(id, elem) {
         try {
             await mongoose.connect(strConn, options);
-            console.log('en el contenedor', id , elem)
-            const obj = await this.model.updateOne({ '_id': {$eq:id} }, elem)
-            console.log('desde el contenedor',obj)
+            const obj = await this.model.updateOne({ '_id': { $eq: id } }, elem)
             if (obj === undefined) {
                 return 'Producto No encontrado';
             }
@@ -107,7 +106,7 @@ export default class ContainerMongoDb {
                 return JSON.stringify(obj)
             }
         } catch (error) {
-            console.log(error)
+            logger.info(error)
         } finally {
             await mongoose.disconnect()
         }
@@ -115,23 +114,6 @@ export default class ContainerMongoDb {
 
 }
 
-    // async update(id, body) {
-    //     try {
-    //         await mongoose.connect(strConn, options);
-    //         console.log('update', id, body)
-    //         const obj = await this.model.updateOne({ '_id': {$eq:id}}, body)
-    //         if (obj === undefined) {
-    //             return 'Producto No encontrado';
-    //         }
-    //         else {
-    //             return JSON.stringify(obj)
-    //         }
-    //     } catch (error) {
-    //         console.log(error)
-    //     } finally {
-    //         await mongoose.disconnect()
-    //     }
-    // }
 
 
 

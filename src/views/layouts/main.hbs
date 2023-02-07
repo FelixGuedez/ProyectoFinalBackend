@@ -34,12 +34,12 @@
         socket.on('from-server-message', messages => { //Respuesta cuando se envia mensaje
             let mensajesNormSIZE = JSON.stringify(messages).length;
             let mensajesDenorm = normalizr.denormalize(messages.result, schemaMensajes, messages.entities);
-            { { !--renderMessages(mensajesDenorm.mensajes) --} }
+            { {renderMessages(mensajesDenorm.mensajes)} }
         })
         /*=============== Renderizado de mensajes ===============*/
         {
             {
-                !-- function renderMessages(mensajes) {
+                function renderMessages(mensajes) {
                     const cuerpoMensaje = mensajes.map(msg => {
                         return `<span> <span style="color: blue; font-weight: bold">${msg._doc.author}</span>
                         <span style="color: brown"> ${msg._doc.date}</span>
@@ -48,7 +48,7 @@
                         <br>`
                     }).join('')
                     document.querySelector('#mensajes').innerHTML = cuerpoMensaje;
-                } --}
+                } }
         }
 
         function enviarMensaje() {

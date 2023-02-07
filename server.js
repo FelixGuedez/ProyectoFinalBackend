@@ -17,7 +17,6 @@ import ProductosDaoMongoDb from './src/daos/productos/productosDaoMongoDb.js';
 
 const USUARIOS = new UsuariosDaoMongoDb
 const DB_MENSAJES = new MensajesDaoMongoDb
-const DB_PRODUCTOS = new ProductosDaoMongoDb
 dotenv.config();
 
 /*============================[Base de Datos]============================*/
@@ -106,14 +105,6 @@ io.on("connection", async (socket) => {
     const MENSAJES = await listarMensajesNormalizados();
     io.sockets.emit("from-server-message", MENSAJES);
   });
-
-  // socket.on("from-client-product", async (product) => {
-  //   // console.log(product)
-  //   // await DB_PRODUCTOS.save(product);
-  //   const PRODUCTOS = await DB_PRODUCTOS.getAll();
-  //   console.log('desd DB Productos',PRODUCTOS)
-  //   io.sockets.emit("from-server-product", PRODUCTOS);
-  // });
 
 });
 
